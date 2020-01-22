@@ -1,6 +1,10 @@
 # CSharpFundamentals
 
 List of links used thus far:
+
+  Vlog Entry 7:  https://www.youtube.com/watch?v=q8lDgNWLoWg
+  
+  
   
   Vlog Entry 8:  https://www.youtube.com/watch?v=-PoMlaa81rs
   
