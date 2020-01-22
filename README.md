@@ -1,13 +1,22 @@
 # CSharpFundamentals
 
 List of links used thus far:
+  
+  Vlog Entry 8:  https://www.youtube.com/watch?v=-PoMlaa81rs
+  
+  
 
-  Lesson 3:  https://youtu.be/R445Ny4EQ0Q
+  Vlog Entry 10:  https://www.youtube.com/watch?v=m84VOzxLYog
+  
+  https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/
+  
+
+  Vlog Entry 11:  https://www.youtube.com/watch?v=R445Ny4EQ0Q
     
   https://www.w3schools.com/cs/cs_conditions.asp
     
 
-  Lesson 4:
+  Vlog Entry 12:
   
   http://dummy.restapiexample.com/
   
