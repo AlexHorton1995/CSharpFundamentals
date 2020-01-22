@@ -2,7 +2,10 @@
 
 List of links used thus far:
 
-  Lesson 3:
+  Lesson 3:  https://youtu.be/R445Ny4EQ0Q
+    
+  https://www.w3schools.com/cs/cs_conditions.asp
+    
 
   Lesson 4:
   
