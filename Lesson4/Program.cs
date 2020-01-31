@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Lesson4
 {
@@ -31,15 +29,15 @@ namespace Lesson4
             var models = JsonConvert.DeserializeObject<TestClass>(SendAPI("http://dummy.restapiexample.com/api/v1/employees"));
             string outputStr = string.Empty;
 
-            if (models.status == "success")
+            if (models.Status == "success")
             {
                 outputStr = @"EmployeeID,EmployeeName,EmployeeSalary,EmployeeAge,ProfileImage";
                 outputStr += Environment.NewLine;
-                foreach (var model in models.data)
+                foreach (var model in models.Data)
                 {
                     outputStr += string.Format(@"{0},{1},{2},{3},{4}",
-                        model.id, model.employee_name, model.employee_salary, model.employee_age,
-                        model.profile_image).TrimEnd(',');
+                        model.Id, model.Employee_Name, model.Employee_Salary, model.Employee_Age,
+                        model.Profile_Image).TrimEnd(',');
                     outputStr += Environment.NewLine;
                 }
             }
@@ -59,17 +57,17 @@ namespace Lesson4
 
     public class TestClass
     {
-        public string status { get; set; }
-        public List<TestData> data { get; set; }
+        public string Status { get; set; }
+        public List<TestData> Data { get; set; }
     }
 
     public class TestData
     {
-        public string id { get; set; }
-        public string employee_name { get; set; }
-        public string employee_salary { get; set; }
-        public string employee_age { get; set; }
-        public string profile_image { get; set; }
+        public string Id { get; set; }
+        public string Employee_Name { get; set; }
+        public string Employee_Salary { get; set; }
+        public string Employee_Age { get; set; }
+        public string Profile_Image { get; set; }
     }
 
 }
