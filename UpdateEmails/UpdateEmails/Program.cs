@@ -24,20 +24,24 @@ namespace UpdateEmails
             try
             {
                 var conString = System.Configuration.ConfigurationManager.ConnectionStrings["PowerChurch"].ConnectionString;
-                var sqlConnStr = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServer"].ConnectionString;
+                //var sqlConnStr = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServer"].ConnectionString;
+                //using (SqlConnection conn = new SqlConnection(sqlConnStr))
                 string rec;
-
-                using (SqlConnection conn = new SqlConnection(sqlConnStr))
                 using (OleDbConnection connection = new OleDbConnection(conString.ToString()))
                 {
                     connection.Open(); //open the Foxpro DataTable
-                    conn.Open(); //open the sql data table
+                    //conn.Open(); //open the sql data table
                     string sql = null;
                     OleDbDataAdapter adapter = new OleDbDataAdapter();
                     StringBuilder sbv = new StringBuilder(500);
+
+
+
                     DataTable dataTable;
 
-                    //Get all the table schema information
+
+
+                    //Get all the PowerChurch table schema information
                     var tableNames = connection.GetSchema(OleDbMetaDataCollectionNames.Tables);
 
                     foreach (System.Data.DataRow rowTables in tableNames.Rows)
@@ -52,7 +56,6 @@ namespace UpdateEmails
                         {
                             DataColumn dataColumn = new DataColumn(rowColumns["column_name"].ToString());
                             dataTable.Columns.Add(dataColumn);
-                            
                             Console.Out.WriteLine(
                                 rowColumns["column_name"].ToString()
                             );
