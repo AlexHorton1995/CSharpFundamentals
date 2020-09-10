@@ -11,5 +11,6 @@ namespace NewGroceryList.Models
         public string ItemName { get; set; }
         public decimal ItemPrice { get; set; }
         public int ItemQuantity { get; set; }
+        public string Taxable { get; set; }
     }
 }

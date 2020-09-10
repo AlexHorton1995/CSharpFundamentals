@@ -40,9 +40,13 @@
             this.PrintList = new System.Windows.Forms.Button();
             this.EmailList = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.DeleteItem = new System.Windows.Forms.Button();
             this.UpdateItem = new System.Windows.Forms.Button();
+            this.DeleteItem = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.TotalList = new System.Windows.Forms.Button();
+            this.Taxable = new System.Windows.Forms.CheckBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.ExitApplication = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -104,6 +108,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.Taxable);
             this.panel1.Controls.Add(this.AddItem);
             this.panel1.Controls.Add(this.ItemName);
             this.panel1.Controls.Add(this.label3);
@@ -113,7 +118,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(13, 13);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(415, 151);
+            this.panel1.Size = new System.Drawing.Size(415, 194);
             this.panel1.TabIndex = 6;
             // 
             // AddItem
@@ -125,6 +130,7 @@
             this.AddItem.TabIndex = 6;
             this.AddItem.Text = "Add Item";
             this.AddItem.UseVisualStyleBackColor = true;
+            this.AddItem.Click += new System.EventHandler(this.AddItem_Click);
             // 
             // SaveList
             // 
@@ -151,65 +157,114 @@
             this.EmailList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.EmailList.Location = new System.Drawing.Point(3, 229);
             this.EmailList.Name = "EmailList";
-            this.EmailList.Size = new System.Drawing.Size(148, 104);
+            this.EmailList.Size = new System.Drawing.Size(148, 93);
             this.EmailList.TabIndex = 10;
             this.EmailList.Text = "Share List";
             this.EmailList.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.ExitApplication);
+            this.panel2.Controls.Add(this.TotalList);
             this.panel2.Controls.Add(this.UpdateItem);
             this.panel2.Controls.Add(this.DeleteItem);
             this.panel2.Controls.Add(this.SaveList);
             this.panel2.Controls.Add(this.PrintList);
             this.panel2.Controls.Add(this.EmailList);
-            this.panel2.Location = new System.Drawing.Point(6, 170);
+            this.panel2.Location = new System.Drawing.Point(6, 213);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(422, 338);
+            this.panel2.Size = new System.Drawing.Size(422, 403);
             this.panel2.TabIndex = 12;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(434, 13);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersWidth = 62;
-            this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(619, 495);
-            this.dataGridView1.TabIndex = 11;
-            // 
-            // DeleteItem
-            // 
-            this.DeleteItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DeleteItem.Location = new System.Drawing.Point(157, 173);
-            this.DeleteItem.Name = "DeleteItem";
-            this.DeleteItem.Size = new System.Drawing.Size(251, 160);
-            this.DeleteItem.TabIndex = 11;
-            this.DeleteItem.Text = "Remove Item";
-            this.DeleteItem.UseVisualStyleBackColor = true;
             // 
             // UpdateItem
             // 
             this.UpdateItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UpdateItem.Location = new System.Drawing.Point(157, 9);
             this.UpdateItem.Name = "UpdateItem";
-            this.UpdateItem.Size = new System.Drawing.Size(251, 160);
+            this.UpdateItem.Size = new System.Drawing.Size(251, 104);
             this.UpdateItem.TabIndex = 12;
             this.UpdateItem.Text = "Update Item";
             this.UpdateItem.UseVisualStyleBackColor = true;
+            this.UpdateItem.Click += new System.EventHandler(this.UpdateItem_Click);
+            // 
+            // DeleteItem
+            // 
+            this.DeleteItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DeleteItem.Location = new System.Drawing.Point(158, 119);
+            this.DeleteItem.Name = "DeleteItem";
+            this.DeleteItem.Size = new System.Drawing.Size(251, 104);
+            this.DeleteItem.TabIndex = 11;
+            this.DeleteItem.Text = "Remove Item";
+            this.DeleteItem.UseVisualStyleBackColor = true;
+            this.DeleteItem.Click += new System.EventHandler(this.DeleteItem_Click);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(434, 12);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersWidth = 62;
+            this.dataGridView1.RowTemplate.Height = 28;
+            this.dataGridView1.Size = new System.Drawing.Size(770, 333);
+            this.dataGridView1.TabIndex = 11;
+            // 
+            // TotalList
+            // 
+            this.TotalList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TotalList.Location = new System.Drawing.Point(157, 229);
+            this.TotalList.Name = "TotalList";
+            this.TotalList.Size = new System.Drawing.Size(251, 93);
+            this.TotalList.TabIndex = 13;
+            this.TotalList.Text = "Total List";
+            this.TotalList.UseVisualStyleBackColor = true;
+            // 
+            // Taxable
+            // 
+            this.Taxable.AutoSize = true;
+            this.Taxable.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Taxable.Location = new System.Drawing.Point(84, 155);
+            this.Taxable.Name = "Taxable";
+            this.Taxable.Size = new System.Drawing.Size(190, 33);
+            this.Taxable.TabIndex = 7;
+            this.Taxable.Text = "Taxable Item?";
+            this.Taxable.UseVisualStyleBackColor = true;
+            // 
+            // panel3
+            // 
+            this.panel3.Location = new System.Drawing.Point(435, 352);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(769, 264);
+            this.panel3.TabIndex = 13;
+            // 
+            // ExitApplication
+            // 
+            this.ExitApplication.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ExitApplication.Location = new System.Drawing.Point(3, 328);
+            this.ExitApplication.Name = "ExitApplication";
+            this.ExitApplication.Size = new System.Drawing.Size(404, 72);
+            this.ExitApplication.TabIndex = 14;
+            this.ExitApplication.Text = "Close Application";
+            this.ExitApplication.UseVisualStyleBackColor = true;
+            this.ExitApplication.Click += new System.EventHandler(this.ExitApplication_Click);
             // 
             // ListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1065, 522);
+            this.ClientSize = new System.Drawing.Size(1245, 664);
+            this.ControlBox = false;
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ListForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Grocery List App";
             this.Load += new System.EventHandler(this.ListForm_Load);
             this.panel1.ResumeLayout(false);
@@ -237,6 +292,10 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button UpdateItem;
         private System.Windows.Forms.Button DeleteItem;
+        private System.Windows.Forms.Button TotalList;
+        private System.Windows.Forms.CheckBox Taxable;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button ExitApplication;
     }
 }
 
