@@ -13,9 +13,16 @@ namespace NewGroceryList
 {
     public partial class ModalForm : Form
     {
-        public ModalForm()
+        public string inItem { get; set; }
+        public string inPrice { get; set; }
+        public string inQty { get; set; }
+
+        public ModalForm(string item, string price, string qty)
         {
             InitializeComponent();
+            this.inItem = item;
+            this.inPrice = price;
+            this.inQty = qty;
         }
 
         public FormModel GetDataFromModal()
@@ -23,14 +30,14 @@ namespace NewGroceryList
             var iName = ItemName.Text;
             decimal.TryParse(ItemPrice.Text, out decimal price);
             Int16.TryParse(ItemQty.Text, out short qty);
-            var iPrice = price;
             var iQty = qty;
+            var iPrice = price * qty;
 
             FormModel retModel = new FormModel()
             {
                 ItemName = iName,
                 ItemPrice = iPrice,
-                ItemQuantity = qty,
+                ItemQuantity = iQty,
                 Taxable = Taxable.Checked ? "T" : string.Empty
             };
 
@@ -84,13 +91,18 @@ namespace NewGroceryList
                 ItemQuantity = quantity,
                 Taxable = isTaxable ? "T" : string.Empty
             };
+
+            this.Close();
         }
 
         private void ModalForm_Load(object sender, EventArgs e)
         {
-            ItemName.Text = "Enter Item";
-            ItemQty.Text = "0";
-            ItemPrice.Text = "0.00";
+            decimal.TryParse(inPrice, out decimal origPrice);
+            Int32.TryParse(inQty, out int qty);
+
+            ItemName.Text = this.inItem;
+            ItemQty.Text = "1";
+            ItemPrice.Text = (origPrice / qty).ToString();
             Taxable.Checked = false;
             ItemName.Focus();
         }

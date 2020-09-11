@@ -1,10 +1,5 @@
 ﻿using NewGroceryList.Models;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NewGroceryList.Dao
 {
@@ -13,12 +8,15 @@ namespace NewGroceryList.Dao
         DataTable CreateItemTable();
         void AddDataRow(DataTable dt, FormModel model);
         void DeleteDataRow(DataTable dt, string value);
+        void UpdateDataRow(DataTable dt, FormModel model);
     }
 
     public class AppDao : IAppDao
     {
+        #region Constructors
         public AppDao() { }
-
+        #endregion
+        #region DataTable Operations
         public DataTable CreateItemTable()
         {
             var retTable = new DataTable("ItemTable");
@@ -29,7 +27,6 @@ namespace NewGroceryList.Dao
 
             return retTable;
         }
-
         public void AddDataRow(DataTable dt, FormModel model)
         {
             DataRow row = dt.NewRow();
@@ -39,7 +36,6 @@ namespace NewGroceryList.Dao
             row["IsTaxable"] = model.Taxable;
             dt.Rows.Add(row);
         }
-
         public void DeleteDataRow(DataTable dt, string value)
         {
             for (int i = dt.Rows.Count - 1; i >= 0; i--)
@@ -52,32 +48,27 @@ namespace NewGroceryList.Dao
                 }
             }
         }
-
-        public void UpdateDataRow(DataTable dt, string cValue, int updateType, FormModel model)
+        public void UpdateDataRow(DataTable dt, FormModel model)
         {
             for (int i = dt.Rows.Count - 1; i >= 0; i--)
             {
                 var dr = dt.Rows[i];
 
-                if (dr["ItemName"].ToString() == cValue.ToString())
+                if (dr["ItemName"].ToString() == model.ItemName)
                 {
-                    switch (updateType)
-                    {
-                        case 1: //update ItemName
-                            dr["ItemName"] = model.ItemName;
-                            break;
-                        case 2: //update Item Price (based on quantity)
-                            dr["ItemName"] = model.ItemName;
-                            break;
-                        case 3: //update item Quantity (will need to update price as well)
-                            break;
-                    }
-
-                    dr.Delete();
+                    dr.BeginEdit();
+                    dr["ItemName"] = model.ItemName;
+                    dr["ItemPrice"] = model.ItemPrice;
+                    dr["ItemQuantity"] = model.ItemQuantity;
+                    dr["IsTaxable"] = model.Taxable;
+                    dr.AcceptChanges();
                 }
             }
         }
+        #endregion
+        #region EmailOperations
 
+        #endregion
     }
 }
 
