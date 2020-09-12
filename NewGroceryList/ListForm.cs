@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Drawing.Printing;
 
 namespace NewGroceryList
 {
@@ -198,6 +199,7 @@ namespace NewGroceryList
         private void PrintList_Click(object sender, EventArgs e)
         {
             //create file, save it, then print it.
+            PrintFile();
         }
 
         private void EmailList_Click(object sender, EventArgs e)
@@ -314,6 +316,7 @@ namespace NewGroceryList
                         }
                     }
                     fileSaved = true;
+                    MessageBox.Show($"Shopping List saved to {location} as {listName}!");
                 }
             }
 
@@ -323,38 +326,68 @@ namespace NewGroceryList
         private bool LoadFile()
         {
             bool fileLoaded = false;
-            try
+            FormModel model;
+
+            if (ItemData.Rows.Count == 0)
             {
-                var fileContent = string.Empty;
-                var filePath = string.Empty;
-
-                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                try
                 {
-                    openFileDialog.InitialDirectory = @"c:\ShoppingList\savefiles";
-                    openFileDialog.Filter = "csv files (*.csv)|*.csv";
-                    openFileDialog.FilterIndex = 1;
-                    openFileDialog.RestoreDirectory = true;
+                    var fileContent = string.Empty;
+                    var filePath = string.Empty;
 
-                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    using (OpenFileDialog openFileDialog = new OpenFileDialog())
                     {
-                        //Get the path of specified file
-                        filePath = openFileDialog.FileName;
+                        openFileDialog.InitialDirectory = @"c:\ShoppingList\savefiles";
+                        openFileDialog.Filter = "csv files (*.csv)|*.csv";
+                        openFileDialog.FilterIndex = 1;
+                        openFileDialog.RestoreDirectory = true;
 
-                        //Read the contents of the file into a stream
-                        var fileStream = openFileDialog.OpenFile();
-
-                        using (StreamReader reader = new StreamReader(fileStream))
+                        if (openFileDialog.ShowDialog() == DialogResult.OK)
                         {
-                            fileContent = reader.ReadToEnd();
+                            //Get the path of specified file
+                            filePath = openFileDialog.FileName;
+
+                            //Read the contents of the file into a stream
+                            var fileStream = openFileDialog.OpenFile();
+                            string line;
+
+                            using (StreamReader reader = new StreamReader(fileStream))
+                            {
+                                while ((line = reader.ReadLine()) != null)
+                                {
+                                    var splitLine = line.Split(',');
+                                    int.TryParse(splitLine[0], out int qty);
+                                    var itemName = splitLine[1];
+                                    decimal.TryParse(splitLine[2].Replace('$', ' '), out decimal price);
+                                    var taxable = splitLine[3];
+
+                                    model = new FormModel()
+                                    {
+                                        ItemQuantity = qty,
+                                        ItemName = itemName,
+                                        ItemPrice = price,
+                                        Taxable = taxable
+                                    };
+                                    dao.AddDataRow(ItemData, model);
+                                    dataGridView1.DataSource = ItemData;
+                                }
+                                //fileContent = reader.ReadToEnd();
+                            }
+
+                            //write totals
+                            UpdateTotals();
+
+                            //clear out fields
+                            Initialize();
                         }
                     }
-                }
 
-                fileLoaded = true;
-            }
-            catch (Exception e)
-            {
-                fileLoaded = false;
+                    fileLoaded = true;
+                }
+                catch (Exception e)
+                {
+                    fileLoaded = false;
+                }
             }
 
             return fileLoaded;
@@ -364,9 +397,46 @@ namespace NewGroceryList
         {
             bool filePrinted = false;
 
+            PrintDocument docToPrint = new PrintDocument();
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = @"c:\ShoppingList";
+                openFileDialog.Filter = "txt files (*.txt)|*.txt";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    var filePath = openFileDialog.FileName;
+
+                    //Read the contents of the file into a stream
+                    var fileStream = openFileDialog.OpenFile();
+                    string line;
+
+                    using (StreamReader reader = new StreamReader(fileStream))
+                    {
+
+                        Font printFont = new Font("Arial", 10);
+                        PrintDocument pd = new PrintDocument();
+                        pd.PrintPage += new PrintPageEventHandler
+                           (this.pd_PrintPage);
+                        pd.Print();
+                        //fileContent = reader.ReadToEnd();
+                    }
+
+                    //write totals
+                    UpdateTotals();
+
+                    //clear out fields
+                    Initialize();
+                }
+            }
             return filePrinted;
         }
 
+ 
         private bool ShareList()
         {
             bool emailSent = false;

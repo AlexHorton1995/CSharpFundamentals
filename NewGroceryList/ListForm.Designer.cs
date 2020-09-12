@@ -54,6 +54,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.newPrintDialog = new System.Windows.Forms.PrintDialog();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -340,6 +341,10 @@
             this.label5.TabIndex = 12;
             this.label5.Text = "Taxable Items:";
             // 
+            // newPrintDialog
+            // 
+            this.newPrintDialog.UseEXDialog = true;
+            // 
             // ListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -396,6 +401,7 @@
         private System.Windows.Forms.Label TaxableItems;
         private System.Windows.Forms.Label TotalItems;
         private System.Windows.Forms.Button LoadList;
+        private System.Windows.Forms.PrintDialog newPrintDialog;
     }
 }
 
