@@ -7,6 +7,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace NewGroceryList
 {
@@ -73,7 +74,11 @@ namespace NewGroceryList
                 hasErrors = true;
             }
 
-            if (hasErrors) return;
+            if (hasErrors)
+            {
+                ChangeColor(1);
+                return;
+            }
 
             var totalPrice = price * quantity;
 
@@ -129,11 +134,13 @@ namespace NewGroceryList
             {
                 MessageBox.Show("No items in list.");
                 dataGridView1 = null;
+                ChangeColor(1);
             }
         }
 
         private void UpdateItem_Click(object sender, EventArgs e)
         {
+            ChangeColor(3);
             if (dataGridView1.Rows.Count > 0)
             {
                 FormModel model;
@@ -158,6 +165,7 @@ namespace NewGroceryList
                         }
 
                         MessageBox.Show($"Item {item} with quantity {qty} for price {price} has been updated.");
+                        ChangeColor(0);
                         return;
                     }
                 }
@@ -166,6 +174,7 @@ namespace NewGroceryList
             {
                 MessageBox.Show("No items in list.");
                 dataGridView1 = null;
+                ChangeColor(0);
             }
         }
 
@@ -177,6 +186,11 @@ namespace NewGroceryList
             {
                 //display error to the user if issues creating and saving file.
                 MessageBox.Show("File did not create properly.", "File Error", MessageBoxButtons.OK);
+                ChangeColor(1);
+            }
+            else
+            {
+                ChangeColor(0);
             }
 
         }
@@ -203,6 +217,30 @@ namespace NewGroceryList
             ItemPrice.Text = "0.00";
             Taxable.Checked = false;
             ItemName.Focus();
+            ChangeColor(0);
+        }
+
+        private void ChangeColor(int type)
+        {
+            switch (type)
+            {
+                case 0: //default color
+                    this.ForeColor = Color.Black;
+                    this.BackColor = Color.AliceBlue;
+                    break;
+                case 1: //warning
+                    this.ForeColor = Color.Black;
+                    this.BackColor = Color.LightYellow;
+                    break;
+                case 2: //Error
+                    this.ForeColor = Color.White;
+                    this.BackColor = Color.DarkRed;
+                    break;
+                case 3: //OK
+                    this.ForeColor = Color.Black;
+                    this.BackColor = Color.Green;
+                    break;
+            }
         }
 
         private void UpdateTotals()

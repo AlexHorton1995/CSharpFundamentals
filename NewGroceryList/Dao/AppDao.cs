@@ -16,6 +16,7 @@ namespace NewGroceryList.Dao
         #region Constructors
         public AppDao() { }
         #endregion
+
         #region DataTable Operations
         public DataTable CreateItemTable()
         {
@@ -66,6 +67,7 @@ namespace NewGroceryList.Dao
             }
         }
         #endregion
+ 
         #region EmailOperations
 
         #endregion
