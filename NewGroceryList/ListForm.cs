@@ -196,12 +196,6 @@ namespace NewGroceryList
 
         }
 
-        private void PrintList_Click(object sender, EventArgs e)
-        {
-            //create file, save it, then print it.
-            PrintFile();
-        }
-
         private void EmailList_Click(object sender, EventArgs e)
         {
             //New form needed to collect email info.
@@ -392,50 +386,6 @@ namespace NewGroceryList
 
             return fileLoaded;
         }
-
-        private bool PrintFile()
-        {
-            bool filePrinted = false;
-
-            PrintDocument docToPrint = new PrintDocument();
-
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.InitialDirectory = @"c:\ShoppingList";
-                openFileDialog.Filter = "txt files (*.txt)|*.txt";
-                openFileDialog.FilterIndex = 1;
-                openFileDialog.RestoreDirectory = true;
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    //Get the path of specified file
-                    var filePath = openFileDialog.FileName;
-
-                    //Read the contents of the file into a stream
-                    var fileStream = openFileDialog.OpenFile();
-                    string line;
-
-                    using (StreamReader reader = new StreamReader(fileStream))
-                    {
-
-                        Font printFont = new Font("Arial", 10);
-                        PrintDocument pd = new PrintDocument();
-                        pd.PrintPage += new PrintPageEventHandler
-                           (this.pd_PrintPage);
-                        pd.Print();
-                        //fileContent = reader.ReadToEnd();
-                    }
-
-                    //write totals
-                    UpdateTotals();
-
-                    //clear out fields
-                    Initialize();
-                }
-            }
-            return filePrinted;
-        }
-
  
         private bool ShareList()
         {
@@ -443,8 +393,6 @@ namespace NewGroceryList
 
             return emailSent;
         }
-
-
 
         #endregion
 

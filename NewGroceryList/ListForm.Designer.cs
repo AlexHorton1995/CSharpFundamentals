@@ -40,7 +40,6 @@
             this.AddItem = new System.Windows.Forms.Button();
             this.DeleteItem = new System.Windows.Forms.Button();
             this.SaveList = new System.Windows.Forms.Button();
-            this.PrintList = new System.Windows.Forms.Button();
             this.EmailList = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.LoadList = new System.Windows.Forms.Button();
@@ -191,21 +190,10 @@
             this.SaveList.UseVisualStyleBackColor = true;
             this.SaveList.Click += new System.EventHandler(this.SaveList_Click);
             // 
-            // PrintList
-            // 
-            this.PrintList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PrintList.Location = new System.Drawing.Point(15, 98);
-            this.PrintList.Name = "PrintList";
-            this.PrintList.Size = new System.Drawing.Size(181, 75);
-            this.PrintList.TabIndex = 9;
-            this.PrintList.Text = "Print";
-            this.PrintList.UseVisualStyleBackColor = true;
-            this.PrintList.Click += new System.EventHandler(this.PrintList_Click);
-            // 
             // EmailList
             // 
             this.EmailList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EmailList.Location = new System.Drawing.Point(226, 98);
+            this.EmailList.Location = new System.Drawing.Point(124, 98);
             this.EmailList.Name = "EmailList";
             this.EmailList.Size = new System.Drawing.Size(181, 75);
             this.EmailList.TabIndex = 10;
@@ -218,7 +206,6 @@
             this.panel2.Controls.Add(this.LoadList);
             this.panel2.Controls.Add(this.ExitApplication);
             this.panel2.Controls.Add(this.SaveList);
-            this.panel2.Controls.Add(this.PrintList);
             this.panel2.Controls.Add(this.EmailList);
             this.panel2.Location = new System.Drawing.Point(7, 351);
             this.panel2.Name = "panel2";
@@ -384,7 +371,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button AddItem;
         private System.Windows.Forms.Button SaveList;
-        private System.Windows.Forms.Button PrintList;
         private System.Windows.Forms.Button EmailList;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.DataGridView dataGridView1;
