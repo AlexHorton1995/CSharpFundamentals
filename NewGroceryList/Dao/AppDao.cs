@@ -9,6 +9,7 @@ namespace NewGroceryList.Dao
         void AddDataRow(DataTable dt, FormModel model);
         void DeleteDataRow(DataTable dt, string value);
         void UpdateDataRow(DataTable dt, FormModel model);
+        void DeleteAllRows(DataTable dt);
     }
 
     public class AppDao : IAppDao
@@ -49,6 +50,12 @@ namespace NewGroceryList.Dao
                 }
             }
         }
+
+        public void DeleteAllRows(DataTable dt)
+        {
+            dt.Clear();
+        }
+
         public void UpdateDataRow(DataTable dt, FormModel model)
         {
             for (int i = dt.Rows.Count - 1; i >= 0; i--)
@@ -66,10 +73,6 @@ namespace NewGroceryList.Dao
                 }
             }
         }
-        #endregion
- 
-        #region EmailOperations
-
         #endregion
     }
 }

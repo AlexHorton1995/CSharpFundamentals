@@ -59,5 +59,24 @@ namespace NewGroceryList.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;style&gt;
+        ///	h1 {text-align: center;}
+        ///	p {text-align: center;}
+        ///	div {text-align: center;}
+        ///&lt;/style&gt;
+        ///
+        ///&lt;h1&gt;Hello World!&lt;/h1&gt;
+        ///
+        ///&lt;p&gt;New Paragraph here&lt;/p&gt;
+        ///
+        ///&lt;div&gt;Doing some div work here&lt;/div&gt;.
+        /// </summary>
+        internal static string EmailHtml {
+            get {
+                return ResourceManager.GetString("EmailHtml", resourceCulture);
+            }
+        }
     }
 }

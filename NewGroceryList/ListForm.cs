@@ -199,9 +199,21 @@ namespace NewGroceryList
         private void EmailList_Click(object sender, EventArgs e)
         {
             //New form needed to collect email info.
-
+            ShareList();
         }
 
+        private void LoadList_Click(object sender, EventArgs e)
+        {
+            if (ItemData.Rows.Count > 0)
+            {
+                ClearRows();
+                LoadFile();
+            }
+            else
+            {
+                LoadFile();
+            }
+        }
         #endregion
 
         #region Worker Methods
@@ -378,8 +390,9 @@ namespace NewGroceryList
 
                     fileLoaded = true;
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
+                    MessageBox.Show(ex.Message);
                     fileLoaded = false;
                 }
             }
@@ -387,18 +400,37 @@ namespace NewGroceryList
             return fileLoaded;
         }
  
-        private bool ShareList()
+        private void ClearRows()
         {
-            bool emailSent = false;
+            dao.DeleteAllRows(ItemData);
+        }
 
-            return emailSent;
+        private void ShareList()
+        {
+            //send list via email.  Open a 
+            bool emailSent = false;
+            if (ItemData.Rows.Count > 0)
+            {
+                EmailForm emailForm = new EmailForm(ItemData);
+                emailForm.ShowDialog();
+                emailSent = emailForm.EmailSuccessfullySent;
+                if (emailSent)
+                {
+                    MessageBox.Show("Email Successfully Sent!");
+                }
+                else
+                {
+                    MessageBox.Show("Email not Sent!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("No items to share. Enter items or load a list of items to share first.");
+            }
         }
 
         #endregion
 
-        private void LoadList_Click(object sender, EventArgs e)
-        {
-            LoadFile();
-        }
+
     }
 }
