@@ -47,6 +47,7 @@ namespace NewGroceryList.Dao
                 if (dr["ItemName"].ToString() == value.ToString())
                 {
                     dr.Delete();
+                    dt.AcceptChanges();
                 }
             }
         }

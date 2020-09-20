@@ -125,8 +125,16 @@ namespace NewGroceryList
                     if (deleteRow.ToString() == "Yes")
                     {
                         dao.DeleteDataRow(ItemData, item.ToString());
-                        UpdateTotals();
-                        MessageBox.Show($"Item {item} with quantity {qty} for price {price} has been removed.");
+                        if (ItemData.Rows.Count > 0)
+                        {
+                            UpdateTotals();
+                            MessageBox.Show($"Item {item} with quantity {qty} for price {price} has been removed.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("All Items Removed from the list.");
+                        }
+
                         return;
                     }
                 }
@@ -134,7 +142,10 @@ namespace NewGroceryList
             else
             {
                 MessageBox.Show("No items in list.");
-                dataGridView1 = null;
+
+                if (dataGridView1 != null && dataGridView1.Rows.Count > 0)
+                    dataGridView1.Rows.Clear();
+
                 ChangeColor(1);
             }
         }
@@ -174,7 +185,10 @@ namespace NewGroceryList
             else
             {
                 MessageBox.Show("No items in list.");
-                dataGridView1 = null;
+
+                if (dataGridView1 != null && dataGridView1.Rows.Count > 0)
+                    dataGridView1.Rows.Clear();
+
                 ChangeColor(0);
             }
         }
@@ -399,7 +413,7 @@ namespace NewGroceryList
 
             return fileLoaded;
         }
- 
+
         private void ClearRows()
         {
             dao.DeleteAllRows(ItemData);
