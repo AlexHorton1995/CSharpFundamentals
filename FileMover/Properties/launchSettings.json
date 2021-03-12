@@ -2,7 +2,7 @@
   "profiles": {
     "FileMover": {
       "commandName": "Project",
-      "commandLineArgs": "Source=C:\\TestFileSource\\Data_Entry Dest=C:\\TestFileDestination\\CONTRIBUTION_RECONCILIATION"
+      "commandLineArgs": "Source=K:\\TestFileSource\\Data_Entry Dest=K:\\TestFileDestination\\CONTRIBUTION_RECONCILIATION"
     }
   }
 }
