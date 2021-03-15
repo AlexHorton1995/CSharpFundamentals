@@ -30,7 +30,12 @@ namespace PersonAPI
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PersonAPI", Version = "v1" });
+                OpenApiContact contact = new OpenApiContact();
+                contact.Name = "Alex Horton";
+                contact.Email = "alex.d.horton95@gmail.com";
+
+                c.SwaggerDoc("v1", new OpenApiInfo { Contact = contact, Title = "PersonAPI", Version = "v1" });
+
             });
         }
 

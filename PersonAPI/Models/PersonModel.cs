@@ -23,10 +23,10 @@ namespace PersonAPI.Models
         public string LastName { get; set; }
 
         [DataMember(Name = "dob")]
-        public DateTime DOB { get; set; }
+        public DateTime? DOB { get; set; }
 
         [DataMember(Name = "age")]
-        public byte Age { get; set; }
+        public byte? Age => DOB.HasValue ? (byte)(DateTime.Now.Date.Year - DOB.Value.Year) : 0;
 
         [DataMember(Name = "address1")]
         public string Address1 { get; set; }
