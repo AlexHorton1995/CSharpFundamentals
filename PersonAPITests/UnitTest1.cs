@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PersonAPI;
+using PersonAPI.Models;
 using System;
 
 namespace PersonAPITests
@@ -8,27 +9,37 @@ namespace PersonAPITests
     [TestClass]
     public class UnitTest1
     {
-        WeatherForecast testForecast { get; set; }
+        PersonModel testPerson { get; set; }
 
         [TestInitialize]
         public void TestInitialize()
         {
-            this.testForecast = new WeatherForecast();
+            this.testPerson = new PersonModel();
         }
 
         [TestMethod]
-        public void TestWeatherForecastClass()
+        public void TestNewPersonModel()
         {
-            var expected = new WeatherForecast()
+            var expected = new PersonModel()
             {
-                Date = DateTime.Now.Date,
-                Summary = "Hot!",
-                TemperatureC = 32
+                ID = Guid.NewGuid().ToString(),
+                 FirstName = "Test 1 Name",
+                 MidInit = "D",
+                 LastName = "Test 1 L Name",
+                 Address1 = "123 ANYWHERE USA",
+                 Address2 = "456 JENKINS RD",
+                 City = "OMAHA",
+                 State = "NE", 
+                 ZipCode = "68111", 
+                 EMail = "TESTEMAIL@EMAIL.COM", 
+                 DOB = new DateTime(2020, 01, 01),
+                 Phone1 = "402-555-1212", 
+                 Phone2 = "800-123-1234"
             };
 
-            var tempF = expected.TemperatureF;
+            var age = expected.Age;
 
-            Assert.AreEqual(tempF, 89);
+            Assert.AreEqual(age, (byte?)1);
 
 
         }
