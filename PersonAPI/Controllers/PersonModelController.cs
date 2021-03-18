@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace PersonAPI.Controllers
 {
     [ApiController]
-    [Route("api/[Controller]")]
+    [Route("v1/[Controller]")]
     [ApiKey]
     public class PersonModelController : ControllerBase
     {
@@ -31,6 +31,13 @@ namespace PersonAPI.Controllers
             personDao = new PersonModelMethods(_configuration);
             _logger = logger;
         }
+
+#if DEBUG
+        public PersonModelController()
+        {
+            //For test Purposes
+        }
+#endif
 
 
         /// <summary>
@@ -119,6 +126,7 @@ namespace PersonAPI.Controllers
                         City = model.City ?? oldData.City,
                         State = model.State ?? oldData.State,
                         ZipCode = model.ZipCode ?? oldData.ZipCode,
+                        DOB = model.DOB ?? oldData.DOB,
                         Phone1 = model.Phone1 ?? oldData.Phone1,
                         Phone2 = model.Phone2 ?? oldData.Phone2,
                         EMail = model.EMail ?? oldData.EMail
