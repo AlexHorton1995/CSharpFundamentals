@@ -8,6 +8,9 @@
 </Description>
     <UserSecretsId>32d18e36-54ae-4813-82f1-68983fade9bb</UserSecretsId>
     <StartupObject></StartupObject>
+    <Version>1.0.1</Version>
+    <RepositoryUrl>https://github.com/AlexHorton1995/CSharpFundamentals/tree/master/PersonAPI</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
