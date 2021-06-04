@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2"/>
+    <PackageReference Include="Dapper" Version="2.0.78"/>
+    <PackageReference Include="SqlConnection" Version="1.0.4"/>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="3.0.0-preview1.21075.2"/>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0"/>
+  </ItemGroup>
+</Project>
