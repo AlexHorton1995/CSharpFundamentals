@@ -5,16 +5,18 @@ using System.Data.SqlClient;
 using Dapper;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("FileMoverTestProjects")]
 namespace FileMover
 {
-    class Program
+    public static class Program
     {
         //Instantiate static IConfiguration object
         public static IConfiguration _Config { get; set; }
         public static LogLines Log { get; set; }
 
-        static void Main(string[] args)
+        internal static void Main(string[] args)
         {
             //create new configuration object
             var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
@@ -50,7 +52,7 @@ namespace FileMover
 
         }
 
-        static IEnumerable<string> FindAndMoveFiles(string sourcePath, string destinationPath)
+        internal static IEnumerable<string> FindAndMoveFiles(string sourcePath, string destinationPath)
         {
             List<string> returnList = new List<string>();
 
@@ -147,7 +149,7 @@ namespace FileMover
 
         }
 
-        static bool InsertData(string connString, IEnumerable<string> ListOfFiles)
+        internal static bool InsertData(string connString, IEnumerable<string> ListOfFiles)
         {
             List<LogLines> insertLines = new List<LogLines>();
             try
@@ -195,7 +197,6 @@ namespace FileMover
                             });
                     }
 
-                    //var getRows = conn.ExecuteScalar(sql); //Dapper Query
                 }
                 Console.Write(@"Inserted log row into table.");
                 return true;
