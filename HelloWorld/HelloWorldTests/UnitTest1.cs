@@ -25,8 +25,9 @@ namespace HelloWorldTests
         [TestMethod]
         public void TestInitializeDAO()
         {
-            var dao = _mockDAO.InitializeDAO();
-            Assert.IsTrue(PreProgram.Initialize(dao));
+            string[] mockArg = new string[] { "ConnString:Mock" };
+            var dao = _mockDAO.InitializeDAO("MOCK");
+            Assert.IsTrue(PreProgram.Initialize(dao, mockArg));
         }
 
         [TestMethod]
