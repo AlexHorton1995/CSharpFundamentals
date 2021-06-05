@@ -62,7 +62,7 @@ namespace HelloWorldTests.MockDAO
             return mockData;
         }
 
-        public DataAccessObjects InitializeDAO()
+        public DataAccessObjects InitializeDAO(string args)
         {
             DataAccessObjects testObj = new DataAccessObjects();
 

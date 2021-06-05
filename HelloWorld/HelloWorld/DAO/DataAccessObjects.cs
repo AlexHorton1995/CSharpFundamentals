@@ -14,8 +14,9 @@ namespace HelloWorld.DAO
 	public interface IDataAccessObjects
 	{
 		string ConnString { get; set; }
+		Dictionary<byte, string> ConnStrings { get; set; }
 		IEnumerable<QueryModel> GetInvoiceTotalsByPriceRange(decimal lowRange, decimal highRange);
-		DataAccessObjects InitializeDAO();
+		DataAccessObjects InitializeDAO(string args);
 	}
 
 	/// <summary>
@@ -25,6 +26,7 @@ namespace HelloWorld.DAO
 	public class DataAccessObjects : IDataAccessObjects, IDisposable
 	{
 		private bool disposedValue;
+		public Dictionary<byte,string> ConnStrings { get; set; }
 		public string ConnString { get; set; }
 
 		private IConfiguration configuration;
@@ -79,7 +81,7 @@ namespace HelloWorld.DAO
 			}
 		}
 
-		public DataAccessObjects InitializeDAO()
+		public DataAccessObjects InitializeDAO(string arg)
 		{
 			try
 			{
@@ -89,7 +91,7 @@ namespace HelloWorld.DAO
 				.Build();
 
 				configuration = builder;
-				if (SetConnString())
+				if (SetConnString(arg))
 				{
 					return this;
 				}
@@ -103,13 +105,26 @@ namespace HelloWorld.DAO
 				Console.WriteLine(e.Message);
 				return null;
 			}
- 
+
 		}
 
-		private bool SetConnString()
+		private bool SetConnString(string arg)
 		{
-			this.ConnString = string.IsNullOrEmpty(this.ConnString) ? configuration.GetConnectionString("DefaultConnection") : this.ConnString;
-			return !string.IsNullOrEmpty(this.ConnString);
+			try
+			{
+				this.ConnString = arg switch
+				{
+					"D" => configuration.GetConnectionString("DefaultConnection"),
+					"S" => configuration.GetConnectionString("SecondaryConnection"),
+					_ => configuration.GetConnectionString("DummyConnection"),
+				};
+				return true;
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.StackTrace);
+				return false;
+			}
 		}
 
 		#region Disposable
