@@ -2,7 +2,7 @@
   "profiles": {
     "HelloWorld": {
       "commandName": "Project",
-      "commandLineArgs": "ConnString:S"
+      "commandLineArgs": "ConnString:D"
     }
   }
 }

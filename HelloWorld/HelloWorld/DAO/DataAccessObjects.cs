@@ -13,8 +13,10 @@ namespace HelloWorld.DAO
 
 	public interface IDataAccessObjects
 	{
-		string ConnString { get; set; }
-		Dictionary<byte, string> ConnStrings { get; set; }
+		string ConnString { get; }
+		string FileLocation { get; }
+		Dictionary<string, string> ConnStrings { get; set; }
+		Dictionary<string, string> FileLocations { get; set; }
 		IEnumerable<QueryModel> GetInvoiceTotalsByPriceRange(decimal lowRange, decimal highRange);
 		DataAccessObjects InitializeDAO(string args);
 	}
@@ -26,10 +28,17 @@ namespace HelloWorld.DAO
 	public class DataAccessObjects : IDataAccessObjects, IDisposable
 	{
 		private bool disposedValue;
-		public Dictionary<byte,string> ConnStrings { get; set; }
+		public Dictionary<string,string> ConnStrings { get; set; }
+		public Dictionary<string,string> FileLocations { get; set; }
 		public string ConnString { get; set; }
-
+		public string FileLocation { get; set; }
 		private IConfiguration configuration;
+
+		public DataAccessObjects()
+		{
+			this.ConnStrings = new Dictionary<string, string>();
+			this.FileLocations = new Dictionary<string, string>();
+		}
 
 		/// <summary>
 		/// GetTracksForArtist - Retrieves all tracks for artist passed.
@@ -112,12 +121,33 @@ namespace HelloWorld.DAO
 		{
 			try
 			{
-				this.ConnString = arg switch
+
+				foreach (var conStr in configuration.GetSection("ConnectionStrings").GetChildren())
+                {
+					this.ConnStrings.Add(conStr.Key, conStr.Value);
+                }
+
+				foreach (var fileStr in configuration.GetSection("FileOutputLocations").GetChildren())
 				{
-					"D" => configuration.GetConnectionString("DefaultConnection"),
-					"S" => configuration.GetConnectionString("SecondaryConnection"),
-					_ => configuration.GetConnectionString("DummyConnection"),
-				};
+					this.FileLocations.Add(fileStr.Key, fileStr.Value);
+				}
+
+				switch (Environment.MachineName)
+				{
+					case "DESKTOP-VBBHMUF":
+						this.ConnString = this.ConnStrings.Where(x => x.Key.Contains("Default")).Select(x => x.Value).FirstOrDefault();
+						this.FileLocation = this.FileLocations.Where(x => x.Key.Contains("Default")).Select(x => x.Value).FirstOrDefault();
+						break;
+					default:
+						break;
+				}
+
+				//this.ConnString = arg switch
+				//{
+				//	"D" => configuration.GetConnectionString("DefaultConnection"),
+				//	"S" => configuration.GetConnectionString("SecondaryConnection"),
+				//	_ => configuration.GetConnectionString("DummyConnection"),
+				//};
 				return true;
 			}
 			catch (Exception e)

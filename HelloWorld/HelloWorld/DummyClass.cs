@@ -7,6 +7,8 @@ using HelloWorld.Models;
 using OfficeOpenXml;
 using System.IO;
 using System.Collections.Generic;
+using Hortography;
+
 
 [assembly: InternalsVisibleTo("HelloWorldTests")]
 namespace HelloWorld
@@ -14,6 +16,7 @@ namespace HelloWorld
     public class PreProgram : IDisposable
     {
         internal static IDataAccessObjects DAO;
+        internal static IHortography Encryption;
         private bool disposedValue;
         internal static ExcelPackage exPack;
 
@@ -32,6 +35,7 @@ namespace HelloWorld
             using var dao = new DataAccessObjects();
             if (Initialize(dao, args))
             {
+                HashMethod();
                 var rowCnt = ParseInfo();
                 Console.WriteLine(@"Number of rows written: " + rowCnt);
             }
@@ -45,6 +49,7 @@ namespace HelloWorld
 
                 var conSelection = args[0].Split(':').ToList();
                 retType = (DAO = dao.InitializeDAO(conSelection[1])) != null;
+                Encryption = new Hortography.Hortography();
             }
             catch (Exception e)
             {
@@ -66,29 +71,10 @@ namespace HelloWorld
                         .ThenBy(x => x.ArtistsName)
                         .ThenBy(x => x.TrackName);
 
-                DisplayInExcel(recs);
 
                 if (recs.Count() > 0)
                 {
-                    StringBuilder sb = new StringBuilder(5000);
-
-                    sb.Append(@"InvoiceLineID,MediaTrackID,AlbumTitle,ArtistsName,TrackName,MediaType,UnitPrice,Quantity");
-                    Console.WriteLine(sb.ToString());
-                    foreach (var rec in recs)
-                    {
-                        sb = new StringBuilder(5000);
-                        sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7}",
-                            rec.InvoiceLineID,
-                            rec.MediaTrackID,
-                            rec.AlbumTitle,
-                            rec.ArtistsName,
-                            rec.TrackName,
-                            rec.MediaType,
-                            rec.UnitPrice,
-                            rec.Quantity);
-                        //Console.WriteLine(sb.ToString());
-                        ++recCount;
-                    }
+                    DisplayInExcel(recs);
                 }
                 else
                 {
@@ -111,7 +97,7 @@ namespace HelloWorld
                 //this has to be here for the excel license
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-                using (var package = new ExcelPackage(new FileInfo(string.Format(@"B:\OneDrive\Documents\MyWorkbook_{0}.xlsx", DateTime.Now.ToString("MMddyyyy_HHmmss")))))
+                using (var package = new ExcelPackage(new FileInfo(string.Format(@"{0}Report_{1}.xlsx", DAO.FileLocation, DateTime.Now.ToString("MMddyyyy_HHmmss")))))
                 {
                     var sheet1 = package.Workbook.Worksheets.Add("Sheet1");
 
@@ -157,6 +143,17 @@ namespace HelloWorld
             {
                 Console.WriteLine(ex.StackTrace);
             }
+        }
+
+        internal static void HashMethod()
+        {
+            var encryptionBytes = Encryption.ComputeHash("Sometext");
+            Encryption.UseHMACHSA512Key();
+        }
+
+        private static void UseHMACHSA512Key()
+        {
+            throw new NotImplementedException();
         }
 
         #region Disposable

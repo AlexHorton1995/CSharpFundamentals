@@ -21,4 +21,10 @@
     <ProjectReference Include="..\HelloWorld\HelloWorld.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Hortography">
+      <HintPath>..\..\Libs\netcoreapp3.1\Hortography.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
