@@ -2,7 +2,7 @@
   "profiles": {
     "HelloWorld": {
       "commandName": "Project",
-      "commandLineArgs": "ConnString:D"
+      "commandLineArgs": "ConnString:D Key:016164e6-a779-454b-969e-84eced1f0462"
     }
   }
 }

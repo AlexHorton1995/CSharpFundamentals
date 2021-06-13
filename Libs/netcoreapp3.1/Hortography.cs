@@ -1,8 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 
+[assembly: InternalsVisibleTo("HortographyTests")]
+[assembly: InternalsVisibleTo("HelloWorld")]
 namespace Hortography
 {
     public interface IHortography
@@ -13,12 +16,13 @@ namespace Hortography
 
         //methods for hashing
         string ComputeHash(string plainText);
-        bool UseHMACHSA512Key();
 
-
+        //methods for encrypting and decrypting:
+        byte[] EncryptStringtoBytes(string plainText, byte[] key, byte[] IV);
+        string DecryptBytesToPlainTextString(byte[] encryptedText, byte[] key, byte[] IV);
     }
 
-    public class Hortography : IHortography
+    internal sealed class Hortography : IHortography
     {
         public string EncryptionKey { get; set; }
         public byte[] Hash { get; set; }
@@ -34,105 +38,66 @@ namespace Hortography
             return hex;
         }
 
-        public bool UseHMACHSA512Key()
+        public byte[] EncryptStringtoBytes(string plainText, byte[] key, byte[] IV)
         {
-            try
+            // Check arguments.
+            if (plainText == null || plainText.Length <= 0)
+                throw new ArgumentNullException("plainText");
+            if (key == null || key.Length <= 0)
+                throw new ArgumentNullException("Key");
+            if (IV == null || IV.Length <= 0)
+                throw new ArgumentNullException("IV");
+            byte[] encrypted;
+
+            using (Aes aesAlg = Aes.Create())
             {
+                aesAlg.Key = key;
+                aesAlg.IV = IV;
 
-                string dataFile = @"C:\Users\alexh\OneDrive\Documents\text.txt";
-                string signedFile = @"C:\Users\alexh\OneDrive\Documents\signedFile.enc";
+                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 
-                byte[] secretKey = new byte[64];
-                using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
+                using MemoryStream msEncryptIt = new MemoryStream();
+                using CryptoStream cStream = new CryptoStream(msEncryptIt, encryptor, CryptoStreamMode.Write);
+                using (StreamWriter swWrite = new StreamWriter(cStream))
                 {
-                    rng.GetBytes(secretKey);
-                    SignFile(secretKey, dataFile, signedFile);
-                    VerifyFile(secretKey, signedFile);
-                    return true;
+                    swWrite.WriteLine(plainText);
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.StackTrace);
-                return false;
+                encrypted = msEncryptIt.ToArray();
             }
 
+            return encrypted;
+        }
+
+        public string DecryptBytesToPlainTextString(byte[] encryptedText, byte[] key, byte[] IV)
+        {
+            // Check arguments.
+            if (encryptedText == null || encryptedText.Length <= 0)
+                throw new ArgumentNullException("cipherText");
+            if (key == null || key.Length <= 0)
+                throw new ArgumentNullException("Key");
+            if (IV == null || IV.Length <= 0)
+                throw new ArgumentNullException("IV");
+
+            // Declare the string used to hold
+            // the decrypted text.
+            string plaintext = null;
+
+            using (Aes aesAlg2 = Aes.Create())
+            {
+                aesAlg2.Key = key;
+                aesAlg2.IV = IV;
+
+                ICryptoTransform decrypter = aesAlg2.CreateDecryptor(aesAlg2.Key, aesAlg2.IV);
+
+                using MemoryStream msDecrypt = new MemoryStream(encryptedText);
+                using CryptoStream csDecrypt = new CryptoStream(msDecrypt, decrypter, CryptoStreamMode.Read);
+                using StreamReader srdecrypt = new StreamReader(csDecrypt);
+                plaintext = srdecrypt.ReadLine();
+            }
+
+            return plaintext;
 
         }
 
-        // Computes a keyed hash for a source file and creates a target file with the keyed hash
-        // prepended to the contents of the source file.
-        public static void SignFile(byte[] key, String sourceFile, String destFile)
-        {
-            // Initialize the keyed hash object.
-            using (HMACSHA512 hmac = new HMACSHA512(key))
-            {
-                using (FileStream inStream = new FileStream(sourceFile, FileMode.Open))
-                {
-                    using (FileStream outStream = new FileStream(destFile, FileMode.Create))
-                    {
-                        // Compute the hash of the input file.
-                        byte[] hashValue = hmac.ComputeHash(inStream);
-                        // Reset inStream to the beginning of the file.
-                        inStream.Position = 0;
-                        // Write the computed hash value to the output file.
-                        outStream.Write(hashValue, 0, hashValue.Length);
-                        // Copy the contents of the sourceFile to the destFile.
-                        int bytesRead;
-                        // read 1K at a time
-                        byte[] buffer = new byte[1024];
-                        do
-                        {
-                            // Read from the wrapping CryptoStream.
-                            bytesRead = inStream.Read(buffer, 0, 1024);
-                            outStream.Write(buffer, 0, bytesRead);
-                        } while (bytesRead > 0);
-                    }
-                }
-            }
-            return;
-        }
-
-        // Compares the key in the source file with a new key created for the data portion of the file. If the keys
-        // compare the data has not been tampered with.
-        public static bool VerifyFile(byte[] key, String sourceFile)
-        {
-            bool err = false;
-            // Initialize the keyed hash object.
-            using (HMACSHA512 hmac = new HMACSHA512(key))
-            {
-                // Create an array to hold the keyed hash value read from the file.
-                byte[] storedHash = new byte[hmac.HashSize / 8];
-                // Create a FileStream for the source file.
-                using (FileStream inStream = new FileStream(sourceFile, FileMode.Open))
-                {
-                    // Read in the storedHash.
-                    inStream.Read(storedHash, 0, storedHash.Length);
-                    // Compute the hash of the remaining contents of the file.
-                    // The stream is properly positioned at the beginning of the content,
-                    // immediately after the stored hash value.
-                    byte[] computedHash = hmac.ComputeHash(inStream);
-                    // compare the computed hash with the stored value
-
-                    for (int i = 0; i < storedHash.Length; i++)
-                    {
-                        if (computedHash[i] != storedHash[i])
-                        {
-                            err = true;
-                        }
-                    }
-                }
-            }
-            if (err)
-            {
-                Console.WriteLine("Hash values differ! Signed file has been tampered with!");
-                return false;
-            }
-            else
-            {
-                Console.WriteLine("Hash values agree -- no tampering occurred.");
-                return true;
-            }
-        }
     }
 }

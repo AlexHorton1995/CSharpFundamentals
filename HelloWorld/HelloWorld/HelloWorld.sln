@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld", "HelloWorld.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorldTests", "..\HelloWorldTests\HelloWorldTests.csproj", "{6CE08B81-C7FB-4FF5-832B-196AE3E1029B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hortography", "..\..\Hortography\Hortography.csproj", "{82B6CC6F-7154-427E-925F-7B0957E0AF8A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{6CE08B81-C7FB-4FF5-832B-196AE3E1029B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CE08B81-C7FB-4FF5-832B-196AE3E1029B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CE08B81-C7FB-4FF5-832B-196AE3E1029B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82B6CC6F-7154-427E-925F-7B0957E0AF8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82B6CC6F-7154-427E-925F-7B0957E0AF8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82B6CC6F-7154-427E-925F-7B0957E0AF8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82B6CC6F-7154-427E-925F-7B0957E0AF8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
