@@ -12,7 +12,10 @@ namespace HelloWorldTests.MockDAO
 
         private IConfiguration configuration;
 
-        public string ConnString { get; set; }
+        public string ConnString { get; }
+        public string FileLocation { get;  }
+        public Dictionary<string, string> ConnStrings { get; set; }
+        public Dictionary<string, string> FileLocations { get; set; }
 
         public MockDao()
         {
@@ -85,8 +88,7 @@ namespace HelloWorldTests.MockDAO
 
         private bool SetConnString()
         {
-            this.ConnString = configuration.GetConnectionString("DummyConnection");
-            return !string.IsNullOrEmpty(this.ConnString);
+            return !string.IsNullOrEmpty(configuration.GetConnectionString("DummyConnection"));
         }
     }
 }
