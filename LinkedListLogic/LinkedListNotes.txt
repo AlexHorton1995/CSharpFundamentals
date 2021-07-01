@@ -1,0 +1,18 @@
+﻿What are Linked Lists?
+
+Containers where nodes of data are linked together in a list.  
+The node has data, and a reference to the next node in the chain. 
+Attributes of Linked Lists:
+	* You can go forward or in reverse in a linked list
+	* You cannot jump to a specific link in a linked list - you have to go through the chain.
+
+Nodes:
+	* Single Value (Data)
+	* Has a Reference to the next node in the list.
+
+
+Singly Linked List:
+	* Allows forward iteration from start to end
+
+Doubly Linked List:
+	* Allows both forward and backwards iteration from start to end and from end to start.
