@@ -1,0 +1,48 @@
+Links:
+
+Common Github commands:
+https://github.github.com/training-kit/downloads/github-git-cheat-sheet/
+
+Starting Windows Services:
+https://stackoverflow.com/questions/8164859/install-a-windows-service-using-a-windows-command-prompt
+
+https://www.shellhacks.com/windows-start-service-cmd-powershell/
+https://stackoverflow.com/questions/40434679/c-sharp-get-all-open-browsing-tabs-in-all-instances-of-firefox
+
+Setup config file:
+https://support.microsoft.com/en-us/help/815786/how-to-store-and-retrieve-custom-information-from-an-application-confi
+
+setup hash:
+https://stackoverflow.com/questions/12416249/hashing-a-string-with-sha256
+
+https://www.google.com/search?safe=active&client=firefox-b-1-d&sxsrf=ALeKk03TeDa3lx4vtAWlFd97L0DpGCK7yQ:1582354030828&q=c%23+sha256+hash+with+key&sa=X&ved=2ahUKEwjglqqPyOTnAhUFSK0KHWyoBz0Q1QIoAHoECAsQAQ&biw=1920&bih=966
+
+tutorial on how to create a windows service:
+https://docs.microsoft.com/en-us/dotnet/framework/windows-services/walkthrough-creating-a-windows-service-application-in-the-component-designer
+
+Getting Assembly Version:
+https://stackoverflow.com/questions/15126113/getting-assembly-version-from-assemblyinfo-cs
+
+Creating a Test Project:
+https://www.c-sharpcorner.com/UploadFile/dacca2/test-initialize-and-test-setup/
+
+Using MailMessage Class to send emails:
+https://stackoverflow.com/questions/17962784/using-mailmessage-to-send-emails-in-c-sharp
+
+Mail Delivery Exception:
+https://docs.microsoft.com/en-us/exchange/troubleshoot/mail-delivery/mapiexceptionnotfound-ndr
+
+Using SHA256 hash:
+https://stackoverflow.com/questions/212510/what-is-the-easiest-way-to-encrypt-a-password-when-i-save-it-to-the-registry
+
+Using KeyValuePairs:
+https://www.dotnetperls.com/keyvaluepair
+
+Grab running processes with c#:
+https://stackoverflow.com/questions/262280/how-can-i-know-if-a-process-is-running
+
+Grab Active Browser Windows
+https://stackoverflow.com/questions/40434679/c-sharp-get-all-open-browsing-tabs-in-all-instances-of-firefox?answertab=votes#tab-top
+
+Convert Windows Service to Console Application
+https://alastaircrabtree.com/how-to-run-a-dotnet-windows-service-as-a-console-app/

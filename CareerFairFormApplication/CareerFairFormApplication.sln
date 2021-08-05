@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateEmails", "UpdateEmails\UpdateEmails.csproj", "{E50446A3-FA59-4FB8-A76C-AC8DEAAC964D}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CareerFairFormApplication", "CareerFairFormApplication\CareerFairFormApplication.vbproj", "{D91F455E-C867-48D8-897B-FAC439575735}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E50446A3-FA59-4FB8-A76C-AC8DEAAC964D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E50446A3-FA59-4FB8-A76C-AC8DEAAC964D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E50446A3-FA59-4FB8-A76C-AC8DEAAC964D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E50446A3-FA59-4FB8-A76C-AC8DEAAC964D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D91F455E-C867-48D8-897B-FAC439575735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D91F455E-C867-48D8-897B-FAC439575735}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D91F455E-C867-48D8-897B-FAC439575735}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D91F455E-C867-48D8-897B-FAC439575735}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -24,8 +24,8 @@ Global
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://hortonrepo.visualstudio.com/
 		SccLocalPath0 = .
-		SccProjectUniqueName1 = UpdateEmails\\UpdateEmails.csproj
-		SccProjectName1 = UpdateEmails
-		SccLocalPath1 = UpdateEmails
+		SccProjectUniqueName1 = CareerFairFormApplication\\CareerFairFormApplication.vbproj
+		SccProjectName1 = CareerFairFormApplication
+		SccLocalPath1 = CareerFairFormApplication
 	EndGlobalSection
 EndGlobal
