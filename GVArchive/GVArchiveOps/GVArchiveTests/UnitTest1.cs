@@ -6,10 +6,11 @@ using GVArchiveTests.Properties;
 namespace GVArchiveTests
 {
     [TestClass]
-    public class UnitTest1
+    public class UnitTest1 : IDisposable
     {
         internal MockDataModel? mockModel;
-        internal IGVArchive mockArchive;
+        internal IGVArchive? mockArchive;
+ 
 
         [TestInitialize]
         public void TestInitialize()
@@ -45,8 +46,8 @@ namespace GVArchiveTests
         [TestMethod]
         public void TestCreateModels()
         {
-            this.mockArchive.CreateModels();
-            Assert.IsNotNull(this.mockArchive.Models);
+            this.mockArchive?.CreateModels();
+            Assert.IsNotNull(this.mockArchive?.Models);
         }
 
         [TestMethod]
@@ -69,12 +70,49 @@ namespace GVArchiveTests
             };
 
             //ACT
-            var actual = this.mockArchive.FileReadyForImport(fileIn).Where(x => x.IncidentID == 2473638).FirstOrDefault();
+            var actual = this.mockArchive?.FileReadyForImport(fileIn).Where(x => x.IncidentID == 2473638).FirstOrDefault();
 
             //ASSERT
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected?.IncidentID, actual?.IncidentID);
+            Assert.AreEqual(expected?.IncidentDate, actual?.IncidentDate);
+            Assert.AreEqual(expected?.IncidentState, actual?.IncidentState);
+            Assert.AreEqual(expected?.Locale, actual?.Locale);
+            Assert.AreEqual(expected?.Address, actual?.Address);
+            Assert.AreEqual(expected?.NumFatalities, actual?.NumFatalities);
+            Assert.AreEqual(expected?.NumInjured, actual?.NumInjured);
+            Assert.AreEqual(expected?.Operations, actual?.Operations);
         }
 
+        private bool disposedValue;
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    mockArchive?.Dispose();
+                    // TODO: dispose managed state (managed objects)
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                disposedValue = true;
+            }
+        }
+
+        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        // ~UnitTest1()
+        // {
+        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
     }
 }
