@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "GVArchiveOps": {
+      "commandName": "Project",
+      "commandLineArgs": "File:.\\GVArchiveData\\AccidentalDeath.csv",
+      "workingDirectory": "c:\\CodeRepo"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Linq;
+using Dapper;
 using System.Data.SqlClient;
 using GVArchiveOps.DataModels;
 using System.Runtime.CompilerServices;
@@ -13,15 +14,18 @@ namespace GVArchiveOps
         List<DataModel>? Models { get; }
         void CreateModels();
         List<DataModel>? FileReadyForImport(FileInfo inputFile);
+        bool HasConnString();
     }
 
     public class GVArchive : IGVArchive
     {
- 
+
         #region Properties
         public IDataModel? model { get; set; }
         public List<DataModel>? Models { get; set; }
         protected string? ConnString { get; set; }
+        private SqlConnection conn;
+
 
         #endregion
 
@@ -30,7 +34,60 @@ namespace GVArchiveOps
         //CRUD OPERATIONS
         public void CreateModels()
         {
-            this.Models = new List<DataModel>();            
+            this.Models = new List<DataModel>();
+        }
+
+        public bool HasConnString()
+        {
+            return false;
+        }
+
+        public bool CreateTempTable()
+        {
+            ConnString = "Data Source=DESKTOP-C1TJG0L;Initial Catalog=GVArchive;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
+            using (conn = new SqlConnection(this.ConnString))
+            {
+                conn.Open();
+
+                var sql = @"
+                            CREATE TABLE [#TempIncidents](
+	                            [TempIncidentID] [int] NOT NULL,
+	                            [TempIncidentDate] [datetime] NOT NULL,
+	                            [TempIncidentState] [varchar](60) NOT NULL,
+	                            [TempLocale] [varchar](200) NULL,
+	                            [TempAddress] [varchar](70) NULL,
+	                            [TempNumFatalities] [int] NOT NULL,
+	                            [TempNumInjured] [int] NOT NULL,
+	                            [TempOperations] [varchar](60) NULL,
+                             CONSTRAINT [PK_TempIncidents] PRIMARY KEY CLUSTERED 
+                            (
+	                            [TempIncidentID] ASC,
+	                            [TempIncidentDate] ASC
+                            )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+                            ) ON [PRIMARY]
+                            GO
+                            ";
+
+                conn.Query(sql);
+
+
+
+            }
+
+            return false;
+        }
+
+        public bool DropTempTable()
+        {
+            using (conn = new SqlConnection(this.ConnString))
+            {
+                conn.Open();
+
+                var sql = @"DROP TABLE [#TempIncidents]";
+            }
+            return false;
+
         }
 
         #endregion
@@ -42,13 +99,16 @@ namespace GVArchiveOps
 
             string? line;
 
-            using(var sr = new StreamReader(inputFile.FullName))
+            using (var sr = new StreamReader(inputFile.FullName))
             {
                 sr.ReadLine(); //ignore the header
 
                 while ((line = sr.ReadLine()) != null)
                 {
                     var lineArr = line.Split(',');
+
+                    var testDt = $"{lineArr[1]} {lineArr[2].Trim()}";
+
 
                     DataModel model = new DataModel()
                     {
@@ -66,6 +126,8 @@ namespace GVArchiveOps
             }
             return this.Models;
         }
+
+
 
         #endregion
 

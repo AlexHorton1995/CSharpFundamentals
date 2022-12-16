@@ -29,5 +29,11 @@ namespace GVArchiveTests.MockClasses
             this.NumInjured = 0;
             this.Operations = null;
         }
+
+        public MockDataModel()
+        {
+            Initialize();
+        }
+
     }
 }

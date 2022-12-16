@@ -1,88 +1,107 @@
+using FluentAssertions;
 using GVArchiveOps;
 using GVArchiveOps.DataModels;
-using GVArchiveTests.MockClasses;
-using GVArchiveTests.Properties;
+using Moq;
 
 namespace GVArchiveTests
 {
     [TestClass]
     public class UnitTest1 : IDisposable
     {
-        internal MockDataModel? mockModel;
-        internal IGVArchive? mockArchive;
- 
+        internal Mock<IDataModel>? mockData;
+        internal Mock<IGVArchive>? mockGVArchive;
+        internal Mock<IDataModel>? mockModel;
+
 
         [TestInitialize]
         public void TestInitialize()
         {
+            mockData = new Mock<IDataModel>();
+            mockGVArchive = new Mock<IGVArchive>();
             Environment.CurrentDirectory = @"C:\CodeRepo";
-            mockArchive = new GVArchive();
-            mockModel = new MockDataModel();
+            mockModel = new Mock<IDataModel>();
         }
 
         [TestMethod]
         public void TestNewDataModels()
         {
+            var testmodel = new DataModel()
+            {
+                IncidentID = 15,
+                IncidentDate = DateTime.Today,
+                IncidentState = "Nebraska",
+                Locale = "Omaha",
+                Address = "123 Anywhere",
+                NumFatalities = 1,
+                NumInjured = 5,
+                Operations = "N/A"
+            };
+
+
             //Arrange
-            this.mockModel = new MockDataModel();
+            mockGVArchive?.Object.CreateModels();
+            mockGVArchive.Verify(x => x.CreateModels(), Times.Once());
+            mockGVArchive.Setup(x => x.Models).Returns(() => new List<DataModel>(){
+                new DataModel()
+                {
+                    IncidentID = 15,
+                    IncidentDate = DateTime.Today,
+                    IncidentState = "Nebraska",
+                    Locale = "Omaha",
+                    Address = "123 Anywhere",
+                    NumFatalities = 1,
+                    NumInjured = 5,
+                    Operations = "N/A"
+                }
+            });
 
-            //Act
-            this.mockModel.Initialize();
+            mockGVArchive.Object.Models.Should().NotBeNull();
 
-            //Assert
-            Assert.IsNotNull(this.mockModel); 
-            Assert.IsTrue(this.mockModel.IncidentID == 0);
-            Assert.IsTrue(this.mockModel.IncidentDate == DateTime.Today);
-            Assert.IsTrue(this.mockModel.IncidentState == null);
-            Assert.IsTrue(this.mockModel.Locale == null);
-            Assert.IsTrue(this.mockModel.Address == null);
-            Assert.IsTrue(this.mockModel.NumFatalities == 0);
-            Assert.IsTrue(this.mockModel.NumInjured == 0);
-            Assert.IsTrue(this.mockModel.Operations == null);
+            var returnModels = mockGVArchive?.Object.Models;
 
+            Assert.IsTrue(mockGVArchive?.Object.Models?.Any());
+
+            Assert.IsInstanceOfType(returnModels, typeof(List<DataModel>));
+            Assert.IsTrue(returnModels.FirstOrDefault().IncidentID == 15);
+            Assert.IsTrue(returnModels.FirstOrDefault().IncidentDate == DateTime.Today);
+            Assert.IsTrue(returnModels.FirstOrDefault().IncidentState == "Nebraska");
+            Assert.IsTrue(returnModels.FirstOrDefault().Locale == "Omaha");
+            Assert.IsTrue(returnModels.FirstOrDefault().Address == "123 Anywhere");
+            Assert.IsTrue(returnModels.FirstOrDefault().NumFatalities == 1);
+            Assert.IsTrue(returnModels.FirstOrDefault().NumInjured == 5);
+            Assert.IsTrue(returnModels.FirstOrDefault().Operations == "N/A");
 
         }
 
         [TestMethod]
         public void TestCreateModels()
         {
-            this.mockArchive?.CreateModels();
-            Assert.IsNotNull(this.mockArchive?.Models);
+            mockGVArchive?.Object.CreateModels();
+            mockGVArchive?.Verify(x => x.CreateModels(), Times.Once());
+            mockGVArchive?.Setup(x => x.model).Returns(new DataModel());
+            mockGVArchive?.Object.model?.Initialize();
+            var testModel = mockGVArchive?.Object.model;
+
+            Assert.IsNotNull(testModel);
+            Assert.AreEqual(testModel.IncidentID, 0);
+            Assert.AreEqual(testModel.IncidentDate, DateTime.Today);
+            Assert.AreEqual(testModel.IncidentState, null);
+            Assert.AreEqual(testModel.Locale, null);
+            Assert.AreEqual(testModel.Address, null);
+            Assert.AreEqual(testModel.NumFatalities, 0);
+            Assert.AreEqual(testModel.NumInjured, 0);
+            Assert.AreEqual(testModel.Operations, null);
+
         }
 
         [TestMethod]
-        public void TestFileReadyForImport()
+        public void TestCreateNewTable()
         {
-            //ARRANGE
-            var fileIn = new FileInfo(@".\GVArchive\GVArchiveOps\GVArchiveTests\Resources\TestFile.csv");
-
-            //2473638,December 3, 2022,Kentucky,Louisville,4500 E Pages Lane,4,0,N/A
-            DataModel? expected = new DataModel()
-            {
-                IncidentID = 2473638,
-                IncidentDate = new DateTime(2022, 12, 3),
-                IncidentState = "Kentucky",
-                Locale = "Louisville",
-                Address = "4500 E Pages Lane",
-                NumFatalities = 4,
-                NumInjured = 0,
-                Operations = "N/A"
-            };
-
-            //ACT
-            var actual = this.mockArchive?.FileReadyForImport(fileIn).Where(x => x.IncidentID == 2473638).FirstOrDefault();
-
-            //ASSERT
-            Assert.AreEqual(expected?.IncidentID, actual?.IncidentID);
-            Assert.AreEqual(expected?.IncidentDate, actual?.IncidentDate);
-            Assert.AreEqual(expected?.IncidentState, actual?.IncidentState);
-            Assert.AreEqual(expected?.Locale, actual?.Locale);
-            Assert.AreEqual(expected?.Address, actual?.Address);
-            Assert.AreEqual(expected?.NumFatalities, actual?.NumFatalities);
-            Assert.AreEqual(expected?.NumInjured, actual?.NumInjured);
-            Assert.AreEqual(expected?.Operations, actual?.Operations);
+        
         }
 
+
+        #region Disposable
         private bool disposedValue;
 
         protected virtual void Dispose(bool disposing)
@@ -91,7 +110,6 @@ namespace GVArchiveTests
             {
                 if (disposing)
                 {
-                    mockArchive?.Dispose();
                     // TODO: dispose managed state (managed objects)
                 }
 
@@ -114,5 +132,8 @@ namespace GVArchiveTests
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
+        #endregion
+
+
     }
 }

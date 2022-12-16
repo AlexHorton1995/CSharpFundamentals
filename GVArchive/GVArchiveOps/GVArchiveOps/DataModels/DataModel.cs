@@ -43,5 +43,7 @@ namespace GVArchiveOps.DataModels
             this.Operations = null;
         }
 
+        public DataModel() { Initialize(); }
+
     }
 }
