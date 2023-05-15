@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dapper;
 using DapperSolution.Models;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace DapperSolution
 {
@@ -25,7 +26,7 @@ namespace DapperSolution
 
         public DAObjects()
         {
-            this._connectionString = "Data Source=DESKTOP-VBBHMUF;Initial Catalog=Chinook;Integrated Security=True";
+            this._connectionString = "Data Source=DESKTOP-C1TJG0L;Initial Catalog=Chinook;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         }
 
         public bool BeginTransaction()
@@ -54,8 +55,10 @@ namespace DapperSolution
                 using (SqlTransaction sTran = connection.BeginTransaction("TestTran"))
                 {
                     //Write SQL Query
-                    string sql = @"SELECT * FROM Album";
+                    string sql = @"SELECT Title, [Name] from Album ALB
+                                INNER JOIN Artist ART ON ALB.ArtistId = ART.ArtistId";
 
+                   
                     //using Dapper
                     //var query = connection.Query<AlbumModel>(sql).ToList();
                     var query = connection.Query<AlbumModel>(sql, null, sTran).ToList();
@@ -63,10 +66,11 @@ namespace DapperSolution
                     foreach (var data in query)
                     {
 
-                        Console.WriteLine($"The output of {data.Title}");
+                        Console.WriteLine($"Artist: {data.Name} Album: {data.Title}");
                     }
 
                     sTran.Commit();
+
 
                     Console.WriteLine();
                     Console.WriteLine("Press Any key to continue...");
